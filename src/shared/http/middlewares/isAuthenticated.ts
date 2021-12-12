@@ -25,6 +25,12 @@ export default function isAuthenticated(
   try {
     const decodedToken = verify(token, authConfig.jwt.secret);
 
+    const { sub } = decodedToken as TokenPayload;
+
+    req.user = {
+      id: sub,
+    };
+
     return next();
   } catch {
     throw new AppError('Invalid Token!');
